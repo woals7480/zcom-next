@@ -1,5 +1,6 @@
 "use server";
 
+import { signIn } from "@/auth";
 import { redirect } from "next/navigation";
 type State = {
   message: string | null;
@@ -17,7 +18,6 @@ const onSubmit = async (
   const password = (formData.get("password") as string)?.trim() ?? "";
   const image = formData.get("image");
 
-  console.log(image, "!!");
   if (!id) return { message: "no_id", id, name, password };
   if (!name) return { message: "no_name", id, name, password };
   if (!password) return { message: "no_password", id, name, password };
@@ -35,6 +35,11 @@ const onSubmit = async (
     if (response.status === 403) {
       return { message: "user_exists", id, name, password };
     }
+    await signIn("credentials", {
+      id,
+      password,
+      redirect: false,
+    });
 
     // 성공 시 이동
     redirect("/home");
