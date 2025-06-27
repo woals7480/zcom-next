@@ -9,15 +9,22 @@ const mockingEnabledPromise =
         if (process.env.NODE_ENV === "production") {
           return;
         }
-        await worker.start({
-          onUnhandledRequest(request, print) {
-            if (request.url.includes("_next")) {
-              return;
-            }
-            print.warning();
-          },
-        });
-        worker.use(...handlers);
+        worker
+          .start({
+            onUnhandledRequest: "bypass",
+          })
+          .then(() => {
+            worker.use(...handlers);
+          });
+        // await worker.start({
+        //   onUnhandledRequest(request, print) {
+        //     if (request.url.includes("_next")) {
+        //       return;
+        //     }
+        //     print.warning();
+        //   },
+        // });
+        // worker.use(...handlers);
         (module as any).hot?.dispose(() => {
           worker.stop();
         });
