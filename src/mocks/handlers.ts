@@ -19,7 +19,7 @@ const User = [
     image: faker.image.avatar(),
   },
   {
-    id: "zerocho",
+    id: "zerocho0",
     nickname: "제로초",
     image: faker.image.avatar(),
   },
@@ -28,7 +28,7 @@ const User = [
 export const handlers = [
   http.post(`${baseUrl}/api/login`, () => {
     console.log("로그인");
-    return HttpResponse.json(User[0], {
+    return HttpResponse.json(User[1], {
       headers: {
         "Set-Cookie": "connect.sid=msw-cookie;HttpOnly;Path=/",
       },
@@ -55,18 +55,19 @@ export const handlers = [
   }),
   http.get(`${baseUrl}/api/postRecommends`, ({ request }) => {
     const url = new URL(request.url);
+    const cursor = parseInt(url.searchParams.get("cursor") as string) || 0;
     return HttpResponse.json([
       {
-        postId: 1,
+        postId: cursor + 1,
         User: User[0],
-        content: `${1} Z.com is so marvelous. I'm gonna buy that.`,
+        content: `${cursor + 1} Z.com is so marvelous. I'm gonna buy that.`,
         Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
         createdAt: generateDate(),
       },
       {
-        postId: 2,
+        postId: cursor + 2,
         User: User[0],
-        content: `${2} Z.com is so marvelous. I'm gonna buy that.`,
+        content: `${cursor + 2} Z.com is so marvelous. I'm gonna buy that.`,
         Images: [
           { imageId: 1, link: faker.image.urlLoremFlickr() },
           { imageId: 2, link: faker.image.urlLoremFlickr() },
@@ -74,16 +75,16 @@ export const handlers = [
         createdAt: generateDate(),
       },
       {
-        postId: 3,
+        postId: cursor + 3,
         User: User[0],
-        content: `${3} Z.com is so marvelous. I'm gonna buy that.`,
+        content: `${cursor + 3} Z.com is so marvelous. I'm gonna buy that.`,
         Images: [],
         createdAt: generateDate(),
       },
       {
-        postId: 4,
+        postId: cursor + 4,
         User: User[0],
-        content: `${4} Z.com is so marvelous. I'm gonna buy that.`,
+        content: `${cursor + 4} Z.com is so marvelous. I'm gonna buy that.`,
         Images: [
           { imageId: 1, link: faker.image.urlLoremFlickr() },
           { imageId: 2, link: faker.image.urlLoremFlickr() },
@@ -93,9 +94,9 @@ export const handlers = [
         createdAt: generateDate(),
       },
       {
-        postId: 5,
+        postId: cursor + 5,
         User: User[0],
-        content: `${5} Z.com is so marvelous. I'm gonna buy that.`,
+        content: `${cursor + 5} Z.com is so marvelous. I'm gonna buy that.`,
         Images: [
           { imageId: 1, link: faker.image.urlLoremFlickr() },
           { imageId: 2, link: faker.image.urlLoremFlickr() },
@@ -179,6 +180,46 @@ export const handlers = [
         postId: 5,
         User: User[0],
         content: `${5} 검색결과 ${tag}`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+    ]);
+  }),
+  http.get(`${baseUrl}/api/users/:userId/posts`, ({ request, params }) => {
+    const { userId } = params;
+    return HttpResponse.json([
+      {
+        postId: 1,
+        User: User[0],
+        content: `${1} ${userId}의 게시글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 2,
+        User: User[0],
+        content: `${2} ${userId}의 게시글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 3,
+        User: User[0],
+        content: `${3} ${userId}의 게시글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 4,
+        User: User[0],
+        content: `${4} ${userId}의 게시글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 5,
+        User: User[0],
+        content: `${5} ${userId}의 게시글`,
         Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
         createdAt: generateDate(),
       },
