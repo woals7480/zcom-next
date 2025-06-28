@@ -30,14 +30,11 @@ export default function UserInfo({ username }: Props) {
     return (
       <>
         <div className={style.header}>
-          <BackButton />
           <h3 className={style.headerTitle}>프로필</h3>
         </div>
         <div className={style.userZone}>
           <div className={style.userImage}></div>
-          <div className={style.userName}>
-            <div>@{username}</div>
-          </div>
+          <div className={style.userName}></div>
         </div>
         <div
           style={{
@@ -62,20 +59,19 @@ export default function UserInfo({ username }: Props) {
   return (
     <>
       <div className={style.header}>
-        <BackButton />
         <h3 className={style.headerTitle}>{user.nickname}</h3>
       </div>
       <div className={style.userZone}>
-        <div className={style.userImage}>
-          <img src={user.image} alt={user.id} />
-        </div>
-        <div className={style.userName}>
-          <div>{user.nickname}</div>
-          <div>@{user.id}</div>
-        </div>
-        <Link href={session?.user ? "/home" : "/login"}>
+        <div className={style.userRow}>
+          <div className={style.userImage}>
+            <img src={user.image} alt={user.id} />
+          </div>
+          <div className={style.userName}>
+            <div>{user.nickname}</div>
+            <div>@{user.id}</div>
+          </div>
           <button className={style.followButton}>팔로우</button>
-        </Link>
+        </div>
       </div>
     </>
   );
