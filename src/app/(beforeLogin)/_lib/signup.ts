@@ -23,6 +23,8 @@ const onSubmit = async (
   if (!password) return { message: "no_password", id, name, password };
   if (!image) return { message: "no_image", id, name, password };
 
+  formData.set("nickname", name);
+  let shouldRedirect = false;
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`,
@@ -34,6 +36,8 @@ const onSubmit = async (
     );
     if (response.status === 403) {
       return { message: "user_exists", id, name, password };
+    } else if (response.status === 400) {
+      return { message: (await response.json()).data[0], id, name, password };
     }
     await signIn("credentials", {
       id,
@@ -41,12 +45,14 @@ const onSubmit = async (
       redirect: false,
     });
 
-    // 성공 시 이동
-    redirect("/home");
+    shouldRedirect = true;
   } catch (err) {
     console.error(err);
   }
 
+  if (shouldRedirect) {
+    redirect("/home");
+  }
   // 실패했지만 오류 없음 → 그대로 반환
   return { message: null, id, name, password };
 };

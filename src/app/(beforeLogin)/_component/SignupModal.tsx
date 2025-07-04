@@ -22,7 +22,10 @@ const showMessage = (message: string | null) => {
   if (message === "user_exists") {
     return "이미 사용 중인 아이디입니다.";
   }
-  return "";
+  if (message === "nickname must be a string") {
+    return "닉네임이 필요합니다.";
+  }
+  return message;
 };
 
 export default function SignupModal() {
