@@ -14,6 +14,7 @@ import FollowRecommendSection from "./_component/FollowRecommendSection";
 type Props = { children: ReactNode; modal: ReactNode };
 export default async function AfterLoginLayout({ children, modal }: Props) {
   const session = await auth();
+
   return (
     <div className={style.container}>
       <header className={style.leftSectionWrapper}>
@@ -49,7 +50,7 @@ export default async function AfterLoginLayout({ children, modal }: Props) {
                 </Link>
               </nav>
             )}
-            <LogoutButton />
+            <LogoutButton me={session} />
           </div>
         </section>
       </header>
