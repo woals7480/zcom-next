@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  InfiniteData,
-  useSuspenseInfiniteQuery,
-} from "@tanstack/react-query";
+import { InfiniteData, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { getPostRecommends } from "../_lib/getPostRecommends";
 import Post from "../../_component/Post";
 import { Post as IPost } from "@/model/Post";

@@ -145,7 +145,7 @@ export const handlers = [
       {
         postId: cursor + 5,
         User: User[0],
-        content: `${cursor +  5} Stop following me. I'm too famous.`,
+        content: `${cursor + 5} Stop following me. I'm too famous.`,
         Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
         createdAt: generateDate(),
       },
