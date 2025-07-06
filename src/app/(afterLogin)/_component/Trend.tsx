@@ -8,7 +8,10 @@ type Props = {
 
 export default function Trend({ trend }: Props) {
   return (
-    <Link href={`/search?q=${trend.title}`} className={style.container}>
+    <Link
+      href={`/search?q=${encodeURIComponent(trend.title)}`}
+      className={style.container}
+    >
       <div className={style.count}>{trend.tagId}</div>
       <div className={style.title}>{trend.title}</div>
       <div
