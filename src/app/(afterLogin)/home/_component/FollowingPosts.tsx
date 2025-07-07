@@ -36,8 +36,8 @@ export default function FollowingPosts() {
 
   return (
     <>
-      {data?.pages.flat().map((post) => (
-        <Post key={post.postId} post={post} />
+      {data?.pages.flat().map((post, index) => (
+        <Post key={`${post.postId}-${index}`} post={post} />
       ))}
       <div ref={ref} style={{ height: 50 }} />
     </>

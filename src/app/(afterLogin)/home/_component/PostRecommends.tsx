@@ -32,13 +32,12 @@ export default function PostRecommends() {
     if (inView) {
       !isFetching && hasNextPage && fetchNextPage();
     }
-    data?.pages.flat().forEach((v) => console.log(v.postId));
-  }, [inView, isFetching, hasNextPage, fetchNextPage, data]);
+  }, [inView, isFetching, hasNextPage, fetchNextPage]);
 
   return (
     <>
-      {data?.pages.flat().map((post) => (
-        <Post key={post.postId} post={post} />
+      {data?.pages.flat().map((post, index) => (
+        <Post key={`${post.postId}-${index}`} post={post} />
       ))}
       <div ref={ref} style={{ height: 50 }} />
     </>
