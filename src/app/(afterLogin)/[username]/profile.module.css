@@ -40,6 +40,8 @@
   flex-direction: row;
   justify-content: flex-start;
   padding-top: 8px;
+  font-size: 14px;
+  margin-top: 12px;
 }
 
 .userImage {
@@ -96,4 +98,12 @@
 }
 .backButton:hover {
   background-color: rgba(15, 20, 25, 0.1);
+}
+.followButton.followed {
+  background: white;
+  color: black;
+  border: 1px solid grey;
+}
+.followButton.followed:hover {
+  background: lightgray;
 }
