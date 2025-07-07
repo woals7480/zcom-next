@@ -4,15 +4,16 @@ import style from "@/app/(afterLogin)/[username]/profile.module.css";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { User } from "@/model/User";
 import { getUser } from "../_lib/getUser";
-import { useSession } from "next-auth/react";
 import cx from "classnames";
 import { useRouter } from "next/navigation";
+import { Session } from "next-auth";
 
 type Props = {
   username: string;
+  session: Session | null;
 };
 
-export default function UserInfo({ username }: Props) {
+export default function UserInfo({ username, session }: Props) {
   const { data: user, error } = useQuery<
     User,
     Object,
@@ -24,7 +25,6 @@ export default function UserInfo({ username }: Props) {
     staleTime: 60 * 1000,
     gcTime: 300 * 1000,
   });
-  const { data: session } = useSession();
   const router = useRouter();
 
   const queryClient = useQueryClient();
