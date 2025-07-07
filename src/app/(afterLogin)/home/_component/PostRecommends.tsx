@@ -32,7 +32,8 @@ export default function PostRecommends() {
     if (inView) {
       !isFetching && hasNextPage && fetchNextPage();
     }
-  }, [inView, isFetching, hasNextPage, fetchNextPage]);
+    data?.pages.flat().forEach((v) => console.log(v.postId));
+  }, [inView, isFetching, hasNextPage, fetchNextPage, data]);
 
   return (
     <>
