@@ -9,6 +9,7 @@ type Props = {
   username: string;
 };
 export default function UserPosts({ username }: Props) {
+  console.log(username, "!!");
   const { data } = useQuery<
     IPost[],
     Object,
