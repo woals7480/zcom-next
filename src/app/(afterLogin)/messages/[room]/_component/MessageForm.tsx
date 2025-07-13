@@ -2,10 +2,23 @@
 
 import TextareaAutosize from "react-textarea-autosize";
 import style from "./MessageForm.module.css";
-import { ChangeEventHandler, FormEventHandler, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from "react";
+import useSocket from "../_lib/useSocket";
+import { useSession } from "next-auth/react";
 
-export default function MessageForm() {
+interface Props {
+  id: string;
+}
+
+export default function MessageForm({ id }: Props) {
   const [content, setContent] = useState("");
+  const [socket, disconnect] = useSocket();
+  const { data: session } = useSession();
 
   const onChangeContent: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setContent(e.target.value);
@@ -13,15 +26,34 @@ export default function MessageForm() {
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    // 소켓 사용
+    //소켓 사용
+    socket?.emit("sendMessage", {
+      senderId: session?.user?.email,
+      receiverId: id,
+      content,
+    });
+
+    // 리액트 쿼리 데이터 추가
     setContent("");
   };
+
+  useEffect(() => {
+    socket?.on("receiveMessage", (data) => {
+      console.log(data);
+    });
+
+    return () => {
+      socket?.off("receiveMessage");
+    };
+  }, [socket]);
+
   return (
     <div className={style.formZone}>
       <form className={style.form} onSubmit={onSubmit}>
         <TextareaAutosize
           placeholder="새 쪽지 작성하기"
           onChange={onChangeContent}
+          value={content}
         />
         <button
           className={style.submitButton}
