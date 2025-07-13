@@ -70,6 +70,10 @@
 .userName > div:last-child {
   font-size: 15px;
 }
+.buttonBox {
+  display: flex;
+  align-items: center;
+}
 .followButton {
   border: 1px solid rgb(207, 217, 222);
   padding: 0 16px;
@@ -86,7 +90,21 @@
 .followButton:hover {
   background-color: rgb(39, 44, 48);
 }
-
+.messageButton {
+  background-color: #fff;
+  border: 1px solid rgb(207, 217, 222);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  margin-left: 8px;
+}
+.messageButton:hover {
+  background-color: rgba(15, 20, 25, 0.09);
+}
 .backButton {
   width: 34px;
   height: 34px;
