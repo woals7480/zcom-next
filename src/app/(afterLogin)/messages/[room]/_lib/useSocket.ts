@@ -22,16 +22,11 @@ export default function useSocket(): [Socket | null, () => void] {
         console.log(`connect_error due to ${err.message}`);
       });
     }
-  }, []);
+  }, [session]);
 
   useEffect(() => {
     if (socket?.connected && session?.user?.email) {
-      socket?.on("connect", () => {
-        console.log("websocket connected");
-        if (session?.user?.email) {
-          socket?.emit("login", { id: session.user.email });
-        }
-      });
+      socket?.emit("login", { id: session?.user?.email });
     }
   }, [session]);
 

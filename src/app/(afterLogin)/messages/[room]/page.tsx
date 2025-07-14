@@ -1,5 +1,3 @@
-import style from "./chatRoom.module.css";
-import cx from "classnames";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
 import dayjs from "dayjs";
@@ -9,6 +7,8 @@ import { QueryClient } from "@tanstack/react-query";
 import { getUserServer } from "../../[username]/_lib/getUserServer";
 import { UserInfo } from "./_component/UserInfo";
 import WebSocketComponent from "./_component/WebSocketComponent";
+import style from "./chatRoom.module.css";
+import MessageList from "./_component/MessageList";
 
 dayjs.locale("ko");
 dayjs.extend(relativeTime);
@@ -21,7 +21,8 @@ type Props = {
 
 export default async function ChatRoom({ params }: Props) {
   const session = await auth();
-  const ids = params.room.split("-").filter((v) => v !== session?.user?.email);
+  const rooms = await params;
+  const ids = rooms.room.split("-").filter((v) => v !== session?.user?.email);
   if (!ids) {
     return null;
   }
@@ -50,36 +51,8 @@ export default async function ChatRoom({ params }: Props) {
   return (
     <main className={style.main}>
       <UserInfo id={ids[0]} />
-      <div className={style.list}>
-        {messages.map((m) => {
-          if (m.id === "zerohch0") {
-            // 내 메시지면
-            return (
-              <div
-                key={m.messageId}
-                className={cx(style.message, style.myMessage)}
-              >
-                <div className={style.content}>{m.content}</div>
-                <div className={style.date}>
-                  {dayjs(m.createdAt).format("YYYY년 MM월 DD일 A HH시 mm분")}
-                </div>
-              </div>
-            );
-          }
-          return (
-            <div
-              key={m.messageId}
-              className={cx(style.message, style.yourMessage)}
-            >
-              <div className={style.content}>{m.content}</div>
-              <div className={style.date}>
-                {dayjs(m.createdAt).format("YYYY년 MM월 DD일 A HH시 mm분")}
-              </div>
-            </div>
-          );
-        })}
-      </div>
       <WebSocketComponent />
+      <MessageList id={ids[0]} />
       <MessageForm id={ids[0]} />
     </main>
   );
