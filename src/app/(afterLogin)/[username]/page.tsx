@@ -2,6 +2,7 @@ import style from "./profile.module.css";
 import {
   dehydrate,
   HydrationBoundary,
+  InfiniteData,
   QueryClient,
 } from "@tanstack/react-query";
 import { getUserPosts } from "./_lib/getUserPosts";
@@ -11,6 +12,7 @@ import { getUserServer } from "./_lib/getUserServer";
 import { auth } from "@/auth";
 import { User } from "@/model/User";
 import { Metadata } from "next";
+import { Post } from "@/model/Post";
 
 type Props = {
   params: Promise<{ username: string }>;
@@ -34,9 +36,16 @@ export default async function Profile(props: Props) {
     queryKey: ["users", username],
     queryFn: getUserServer,
   });
-  await queryClient.prefetchQuery({
+  await queryClient.prefetchInfiniteQuery<
+    Post[],
+    Object,
+    InfiniteData<Post[]>,
+    [string, string, string],
+    number
+  >({
     queryKey: ["posts", "users", username],
     queryFn: getUserPosts,
+    initialPageParam: 0,
   });
   const dehydratedState = dehydrate(queryClient);
 

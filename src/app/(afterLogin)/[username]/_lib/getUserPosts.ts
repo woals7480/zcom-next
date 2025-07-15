@@ -1,13 +1,12 @@
-import { Post } from "@/model/Post";
-import { QueryFunction } from "@tanstack/react-query";
+type Props = {
+  pageParam?: number;
+  queryKey: [string, string, string];
+};
 
-export const getUserPosts: QueryFunction<
-  Post[],
-  [_1: string, _2: string, string]
-> = async ({ queryKey }) => {
+export const getUserPosts = async ({ pageParam, queryKey }: Props) => {
   const [_1, _2, username] = queryKey;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${username}/posts?cursor=0`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${username}/posts?cursor=${pageParam}`,
     {
       next: {
         tags: ["posts", "users", username],
